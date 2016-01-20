@@ -1,46 +1,86 @@
 {
-  "name": "reflux-state-mixin",
-  "version": "0.6.3",
-  "description": "Reflux stores mixin adding 'state' syntax similar to React components. es6 classes supported",
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/yonatanmn/reflux-state-mixin.git"
-  },
-  "keywords": [
-    "reflux",
-    "mixin",
-    "model",
-    "mvc",
-    "state",
-    "store",
-    "event",
-    "events",
-    "connect",
-    "es6 classes",
-    "decorator"
+  "_args": [
+    [
+      "reflux-state-mixin@github:openmaphub/Super-Simple-Flux",
+      "/Users/kris/dev/openmaphub"
+    ]
   ],
+  "_from": "openmaphub/Super-Simple-Flux",
+  "_id": "reflux-state-mixin@0.6.3",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/reflux-state-mixin",
+  "_phantomChildren": {},
+  "_requested": {
+    "hosted": {
+      "directUrl": "https://raw.githubusercontent.com/openmaphub/Super-Simple-Flux/master/package.json",
+      "gitUrl": "git://github.com/openmaphub/Super-Simple-Flux.git",
+      "httpsUrl": "git+https://github.com/openmaphub/Super-Simple-Flux.git",
+      "shortcut": "github:openmaphub/Super-Simple-Flux",
+      "ssh": "git@github.com:openmaphub/Super-Simple-Flux.git",
+      "sshUrl": "git+ssh://git@github.com/openmaphub/Super-Simple-Flux.git",
+      "type": "github"
+    },
+    "name": "reflux-state-mixin",
+    "raw": "reflux-state-mixin@github:openmaphub/Super-Simple-Flux",
+    "rawSpec": "github:openmaphub/Super-Simple-Flux",
+    "scope": null,
+    "spec": "github:openmaphub/Super-Simple-Flux",
+    "type": "hosted"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "git://github.com/openmaphub/Super-Simple-Flux.git#ed31236ee74f5ebb811375aef9c51f410d250bef",
+  "_shasum": "ff8e1a5611e9908969abeb52e5be54bed8958ca5",
+  "_shrinkwrap": null,
+  "_spec": "reflux-state-mixin@github:openmaphub/Super-Simple-Flux",
+  "_where": "/Users/kris/dev/openmaphub",
   "author": {
-    "name": "Yonatan Schreiber",
-    "email": "yonatnamn@gmail.com"
+    "email": "yonatnamn@gmail.com",
+    "name": "Yonatan Schreiber"
   },
-  "license": "ISC",
-  "dependencies": {},
-  "peerDependencies": {
-    "reflux": ">=0.2.5 <0.4.0"
-  },
-  "homepage": "https://github.com/yonatanmn/reflux-state-mixin",
-  "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/yonatanmn/reflux-state-mixin/issues"
   },
-  "scripts": {
-    "compile": "babel --presets react,es2015,stage-0 -d lib/ src/"
-  },
+  "dependencies": {},
+  "description": "Reflux stores mixin adding 'state' syntax similar to React components. es6 classes supported",
   "devDependencies": {
     "babel-cli": "^6.2.0",
     "babel-preset-es2015": "^6.1.18",
     "babel-preset-react": "^6.1.18",
     "babel-preset-stage-0": "^6.1.18"
-  }
+  },
+  "gitHead": "ed31236ee74f5ebb811375aef9c51f410d250bef",
+  "homepage": "https://github.com/yonatanmn/reflux-state-mixin",
+  "keywords": [
+    "connect",
+    "decorator",
+    "es6 classes",
+    "event",
+    "events",
+    "mixin",
+    "model",
+    "mvc",
+    "reflux",
+    "state",
+    "store"
+  ],
+  "license": "ISC",
+  "main": "src/index.js",
+  "name": "reflux-state-mixin",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "reflux": ">=0.2.5 <0.4.0"
+  },
+  "readme": "# Super Simple Flux \n## making Flux look as pretty as React\n> if your'e here for reflux's mixin - [scroll down](#refluxMixin)\n\nSo - what's this all about? \n\nReact is cool - you can use this magic `Component` class and jsx, and suddenly all of your views are controlled and changed automatically.\nBut Flux, on the other hand - isn't very useful, there is no real code, no api, only good architecture. So then good people started thinking about many cool libraries for Flux, and suddenly: Redux, Reflux, Alt, Fluxxor etc.\n\nBut, If we already have such a great API for React, why can't we do the same with Flux - Stores will control components, the same way Component controls DOM.  You just say the magic word - `setState` - and everything just happens immediately!\n\nWhen you make it that simple, it's easy to have all your Components controlled, and then suddenly your Components are purified (functionally speaking), they don't have any \"real\" state of their own - and as a bonus, you don't care about their hierarchy any more - you can move them around - regardless of their parents and `props`.\n\nSo, the requirements for an API like this are straight forward:\n\n1. Stores should control all of the app's state (This could be done with one main store -redux style, or from multiple stores).\n2. Easy method called `setState` should change state of Store - no explicit changes (like reducers). \n3. Complementary methods could be added - `getInitialState()` ,`shouldStoreUpdate()`, `storeDidUpdate()` - you know the drill.\n4. Every state change should notify all Components and force them to re-render (by altering their \"controlled\" state) - quite similar to what `render` method does. \n5. There's an easy way to declare subscriptions of Components to Store's state (or to a specific property of state in Store). Something like `Component.connectTo(Store.someState)`, think about `<input value={this.state.text}/>` for Components.\n6. Flux Actions should only notify a Store - do something - and should be blind to what the Store is actually doing - exactly the same as `onChange` from DOM to Component\n\nThat's all.\n\n### implementations\nNow the implementation could be done any way you want. With Redux, as a new flux library or any other way.\n\nHere I present a mixin for **Reflux** that works really well (so well in fact, that according to npm stats, every other reflux user is downloading this), but feel free to add other implementations. \nI really hope someone will implement this in **Redux**! \n\n\n=================================================================================================\n=================================================================================================\n<a name=\"refluxMixin\"></a>\n## reflux-state-mixin\n\nMixins for [reflux](https://www.npmjs.com/packages/reflux), to enable SSF (super simple flux) API\n\n\n### Installation\n\n```bash\n$ npm install reflux-state-mixin --save\n```\n\n### in store:\n\n```javascript\n// myStore.js\nvar Reflux = require('reflux');\nvar StateMixin = require('reflux-state-mixin');\nvar Actions = require('./../actions/AnimalsActions'); \n\nvar AnimalStore = module.exports = Reflux.createStore({\n  mixins: [StateMixin.store],\n  listenables: Actions, //or any other way of listening... \n\n  getInitialState: function(){      //that's a must!\n    return{\n      dogs:5,\n      cats:3\n    }\n  },\n\n  onNewDogBorn: function() {\n        this.setState({dogs: this.state.dogs + 1})  \n        //just like in a Component.\n        //this will `trigger()` this state, similar to `render()` in a Component \n  },\n        \n  //you can use storeDidUpdate lifecycle in the store, which will get called with every change to the state\n  storeDidUpdate: function(prevState) {\n      if(this.state.dogs !== prevState.dogs){\n        console.log('number of dogs has changed!');\n      }\n  }\n  \n\n});\n```\n\n\n### in component:\n\n\n#### 1. the easy way - connect, with mixin or decorator:\n\n```javascript\n// PetsComponent.js\nvar AnimalStore = require('./AnimalStore.js');\nvar StateMixin = require('reflux-state-mixin');\n\nvar PetsComponent = React.createClass({\n    mixins:[\n        StateMixin.connect(AnimalStore, 'dogs')\n        StateMixin.connect(AnimalStore, 'cats')\n        //OR\n        StateMixin.connect(AnimalStore) //now PetsComponent.state includes AnimalStore.state\n        ],\n\n    render: function () {\n        return (<div><p>We have {this.state.dogs + this.state.cats} pets</p></div>);\n    }\n})\n\n```\n\nand if you use React's es6 classes, use the es7 `connector` decorator:\n\n```javascript\nimport {connector} from 'reflux-state-mixin';\nimport {AnimalStore} from './AnimalStore';\n\n//@viewPortDecorator // make sure other decorators that returns a Component (usually those who provide props) are above `connector` (since it controls state).\n@connector(AnimalStore, 'cats')\n@connector(AnimalStore, 'dogs')\n//or the entire store\n@connector(AnimalStore)\n//@autobind //other decorators could be anywhere\nclass PetsComponent extends React.Component {\n    render(){\n        let {dogs, cats} = this.state;\n        return (<div>We have {dogs + cats} pets</div>);\n        }\n}\n\n```\n\n\n#### or if you want to take the long way:\n##### listening to a specific property of Store's state\n\n```javascript\n\nvar AnimalStore = require('./AnimalStore.js');\n\nvar DogsComponent = React.createClass({\n    mixins:[Reflux.ListenerMixin],\n    getInitialState: function (){\n      return({\n          dogs:AnimalStore.state.dogs \n          //Treat store.state as immutable data - same as you treat component.state - \n          //you could use it inside a component, but never change it's value - only with setState()    \n      })\n    },\n    componentDidMount: function(){\n        this.listenTo(AnimalStore.dogs,this.updateDogs); \n        //this Component has no interest in `cats` or any other animal, so it listens to `dogs` changes only\n    },\n    updateDogs: function(dogs){\n        this.setState({dogs:dogs});\n        //now we have auto-synchronization with `dogs`, with no need for specific logic for that\n    },\n    render: function () {\n        return (<div><p>We have {this.state.dogs} dogs</p></div>);\n    }\n});\n\n```\n##### listen to an entire store:\n\n```javascript\nvar AnimalStore = require('./AnimalStore.js');\n\nvar PetsComponent = React.createClass({\n    mixins:[Reflux.ListenerMixin],\n    getInitialState: function (){\n      return({\n          dogs: AnimalStore.state.dogs,\n          cats: AnimalStore.state.cats\n      })\n    },\n    componentDidMount: function(){\n         this.listenTo(\n            AnimalStore,\n            (state)=>{\n                this.setState({\n                    dogs:state.dogs,\n                    cats:state.cats\n                })\n            });\n         //this way the component can easily decide what parts of the store-state are interesting\n    },\n\n    render: function () {\n        return (<div><p>We have {this.state.dogs + this.state.cats} pets</p></div>);\n    }\n})\n```\n\n\n## some details\n`GetInitialState()` in store should have all of the states from the beginning.\nStore should not have any method that are declared in state, since you can listen to MyStore.dogs\n`setState()` is checking to see if there is a difference between new `state.key` from current `state.key`. If not, this specific `state.key` it's not triggering.\nFor any `setState()` the entire store is triggering (regardless of changes), allowing any Component or other Store to listen to the entire Store's state.\n\n## acknowledgments\nThis mixin was inspired by (a.k.a shamelessly stole from) -\n[triggerables-mixin](https://github.com/jesstelford/reflux-triggerable-mixin). Also see [this](https://github.com/spoike/refluxjs/issues/158) for details.\n[reflux-provides-store](https://github.com/brigand/reflux-provides-store)\nAnd [state-mixin](https://github.com/spoike/refluxjs/issues/290).\n\nI thank @jehoshua02 @brigand and @jesstelford for their valuable code.\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yonatanmn/reflux-state-mixin.git"
+  },
+  "scripts": {
+    "compile": "babel --presets react,es2015,stage-0 -d lib/ src/"
+  },
+  "version": "0.6.3"
 }
