@@ -1,13 +1,31 @@
 import utils from './utils.js';
 
-module.exports = function (store, key) {
+module.exports = function (store, options = {}) {
+  var key = options.key;
   var noKey = key === undefined;
 
   return {
     getInitialState: function () {
+      if(options.initWithProps){
+        var componentInstance = this;
+        if(Array.isArray(options.initWithProps)){
+          options.initWithProps.forEach(function(prop){
+            store.state[prop] =  componentInstance.props[prop];
+          });
+        }else{ //just load all the props over
+          Object.keys(componentInstance.props).map(function (key) {
+            store.state[key] =  componentInstance.props[key];
+          })
+        }
+
+      }
       if (!utils.isFunction(store.getInitialState)) {
         console.warn('component ' + this.constructor.displayName + ' is trying to connect to a store that lacks "getInitialState()" method');
-        return {};
+        if(options.initWithProps){
+          return componentInstance.props;
+        }else{
+          return {};
+        }
       } else {
         return noKey ? store.state : utils.object([key], [store.state[key]]);
       }
